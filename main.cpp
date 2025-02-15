@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         {
             if (!isalpha(data[x]))
             {
-                data.erase(x, 0);
+                // data.erase(x, 0);
                 tree.insertNode(subString);
                 subString.clear();
             }
@@ -31,16 +31,14 @@ int main(int argc, char *argv[])
             }
         }
     }
-    preOrder(tree.root);
+    // preOrder(tree.root);
     levelOrder(tree.root);
-    postOrder(tree.root);
+    // postOrder(tree.root);
+    dataFile.close();
 
     // process command line arguments and make sure file
     // is readable, error otherwise
     // set up keyboard processing so that hereafter the
     // input method is not relevant
-    // levelOrder(root);
-    // preOrder(root);
-    // postOrder(root);
     return 0;
 }
