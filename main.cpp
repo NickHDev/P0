@@ -3,38 +3,41 @@
 #include <string>
 #include "traversals.h"
 #include "buildTree.h"
+#include "main.h"
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    string data, subString;
-    fstream dataFile;
+    string inputData, inputSubString;
+    ofstream inputDataFile("inputData.txt", ios::app);
     treeNew tree;
+    int level = 0;
 
-    int endPoint = 0;
-    int count = 0;
-
-    dataFile.open(argv[1]);
-    while (getline(dataFile, data))
+    if (argv[1] && argc == 2)
     {
-        for (int x = 0; x < data.length(); x++) // parseing characters in file
-        {
-            if (!isalpha(data[x]))
-            {
-                // data.erase(x, 0);
-                tree.insertNode(subString);
-                subString.clear();
-            }
-            else
-            {
-                subString.append(1, data[x]);
-            }
-        }
+        tree.buildTree(argv[1]);
     }
-    // preOrder(tree.root);
-    levelOrder(tree.root);
-    // postOrder(tree.root);
-    dataFile.close();
+    else if (argc < 2)
+    {
+        cout << "Keep typeing until 'ctrl + d' is entered to end input: \n";
+        while (getline(cin, inputData))
+        {
+            inputDataFile << inputData;
+        }
+        inputDataFile.close();
+        tree.buildTree("inputData.txt");
+    }
+    else 
+    {
+        perror("Error Reading Data.");
+    }
+
+    //preOrder(tree.root, level);
+    //cout << "\n";
+    levelOrder(tree.root, level);
+    //cout << "\n";
+    //postOrder(tree.root, level);
+    remove("inputData.txt");
 
     // process command line arguments and make sure file
     // is readable, error otherwise

@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "buildTree.h"
 using namespace std;
 
@@ -20,6 +21,29 @@ void treeNew::insert(node_t *&nodePtr, node_t *&newNode) // insert node
         insert(nodePtr->left, newNode);
     else
         insert(nodePtr->right, newNode);
+}
+void treeNew::buildTree(string fileName)
+{
+    fstream dataFile;
+    string readingString, subString;
+    dataFile.open(fileName);
+    while (getline(dataFile, readingString))
+    {
+        for (int x = 0; x < readingString.length(); x++) // parseing characters in file
+        {
+            if (!isalpha(readingString[x]))
+            {
+                readingString.erase(x, 0);
+                insertNode(subString);
+                subString.clear();
+            }
+            else
+            {
+                subString.append(1, readingString[x]);
+            }
+        }
+    }
+    dataFile.close();
 }
 
 bool treeNew::searchNode(string charToSearch)
