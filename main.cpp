@@ -1,3 +1,8 @@
+/*
+Author: Nicholas Hieb
+Date Created: 2/08/2025
+This is our main file to get input from the user or file and parse the file and output the traversal files.
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,11 +13,20 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    string inputData, inputSubString;
-    ofstream inputDataFile("inputData.txt", ios::app);
+    string inputData;
+    string preOrder = ".preorder", postOrder = ".postorder", levelOrder = ".levelorder";
+    ofstream inputDataFile("out.txt", ios::app);
     treeNew tree;
     int level = 0;
 
+    preOrder = argv[1] + preOrder;
+    postOrder = argv[1] + postOrder;
+    levelOrder = argv[1] + levelOrder;
+    // Removing any last used data files.
+    remove(preOrder.c_str());
+    remove(postOrder.c_str());
+    remove(levelOrder.c_str());
+    
     if (argv[1] && argc == 2)
     {
         tree.buildTree(argv[1]);
@@ -25,23 +39,17 @@ int main(int argc, char *argv[])
             inputDataFile << inputData;
         }
         inputDataFile.close();
-        tree.buildTree("inputData.txt");
+        tree.buildTree("out.txt");
     }
-    else 
+    else
     {
-        perror("Error Reading Data.");
+        cout << "Fatal: Improper usage \n" << "Usage: P0 [filename] \n";
     }
+        
+    traversePreOrder(tree.root, level, preOrder);
+    traverseLevelOrder(tree.root, level, levelOrder);
+    traversePostOrder(tree.root, level, postOrder);
+    remove("out.txt");
 
-    //preOrder(tree.root, level);
-    //cout << "\n";
-    levelOrder(tree.root, level);
-    //cout << "\n";
-    //postOrder(tree.root, level);
-    remove("inputData.txt");
-
-    // process command line arguments and make sure file
-    // is readable, error otherwise
-    // set up keyboard processing so that hereafter the
-    // input method is not relevant
     return 0;
 }

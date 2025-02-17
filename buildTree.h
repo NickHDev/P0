@@ -18,7 +18,6 @@ public:
     }
     void insertNode(std::string);
     void insert(node_t *&, node_t *&);
-    bool searchNode(std::string);
     void buildTree(std::string data);
 };
 

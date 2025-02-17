@@ -3,8 +3,7 @@
 #define traversals_h
 #include "node.h"
 #include "buildTree.h"
-void levelOrder(node_t *nodeP, int level);
-void preOrder(node_t *nodeP, int level);
-void postOrder(node_t *nodeP, int level);
-
+void traverseLevelOrder(node_t *nodeP, int level, std::string fileName);
+void traversePreOrder(node_t *nodeP, int level, std::string fileName);
+void traversePostOrder(node_t *nodeP, int level, std::string fileName);
 #endif

@@ -1,65 +1,70 @@
+/*
+Author: Nicholas Hieb
+Date Created: 2/08/2025
+This is our build tree file where we build our tree from the tree class.
+*/
 #include <string>
 #include <iostream>
 #include <fstream>
 #include "buildTree.h"
 using namespace std;
-
-void treeNew::insertNode(string charNew) // create node to insert
+// create node to insert
+void treeNew::insertNode(string charNew) 
 {
-    node_t *newNode = nullptr;
-    newNode = new node_t;
+    if (charNew.empty())
+        return;
+    node_t *newNode = new node_t;
     newNode->str = charNew;
     newNode->left = newNode->right = nullptr;
     newNode->count = charNew.length();
     insert(root, newNode);
 }
-void treeNew::insert(node_t *&nodePtr, node_t *&newNode) // insert node
+// insert node
+void treeNew::insert(node_t *&nodePtr, node_t *&newNode)
 {
     if (nodePtr == nullptr)
         nodePtr = newNode;
     else if (newNode->count < nodePtr->count)
         insert(nodePtr->left, newNode);
-    else
+    else if (newNode->count > nodePtr->count)
         insert(nodePtr->right, newNode);
 }
+// This function builds our tree with the given file.
 void treeNew::buildTree(string fileName)
 {
     fstream dataFile;
     string readingString, subString;
     dataFile.open(fileName);
+
     while (getline(dataFile, readingString))
     {
-        for (int x = 0; x < readingString.length(); x++) // parseing characters in file
+        // Parseing characters in file
+        for (int x = 0; x < readingString.length(); x++)
         {
             if (!isalpha(readingString[x]))
             {
-                readingString.erase(x, 0);
-                insertNode(subString);
-                subString.clear();
+                if (!subString.empty())
+                {
+                    insertNode(subString);
+                    subString.clear();
+                }
+                readingString.erase(x, 1);
+                x--;
             }
             else
             {
                 subString.append(1, readingString[x]);
             }
         }
+        if (!subString.empty())
+        {
+            insertNode(subString);
+            subString.clear();
+        }
     }
     dataFile.close();
 }
 
-bool treeNew::searchNode(string charToSearch)
-{
-    node_t *nodePtr = root;
-    while (nodePtr)
-    {
-        if (nodePtr->str == charToSearch)
-            return true;
-        else if (charToSearch < nodePtr->str)
-            nodePtr = nodePtr->left;
-        else
-            nodePtr = nodePtr->right;
-    }
-    return false;
-}
 void treeNew::destroySubTree(node_t *nodePtr)
 {
     if (nodePtr)
