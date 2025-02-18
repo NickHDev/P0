@@ -15,20 +15,21 @@ int main(int argc, char *argv[])
 {
     string inputData;
     string preOrder = ".preorder", postOrder = ".postorder", levelOrder = ".levelorder";
-    ofstream inputDataFile("out.txt", ios::app);
+    ofstream inputDataFile("out", ios::app);
     treeNew tree;
     int level = 0;
 
-    preOrder = argv[1] + preOrder;
-    postOrder = argv[1] + postOrder;
-    levelOrder = argv[1] + levelOrder;
-    // Removing any last used data files.
-    remove(preOrder.c_str());
-    remove(postOrder.c_str());
-    remove(levelOrder.c_str());
-    
     if (argv[1] && argc == 2)
     {
+        
+        preOrder = argv[1] + preOrder;
+        postOrder = argv[1] + postOrder;
+        levelOrder = argv[1] + levelOrder;
+        // Removing any last used data files.
+        remove(preOrder.c_str());
+        remove(postOrder.c_str());
+        remove(levelOrder.c_str());
+
         tree.buildTree(argv[1]);
     }
     else if (argc < 2)
@@ -39,17 +40,27 @@ int main(int argc, char *argv[])
             inputDataFile << inputData;
         }
         inputDataFile.close();
-        tree.buildTree("out.txt");
+
+        preOrder = "out" + preOrder;
+        postOrder = "out" + postOrder;
+        levelOrder = "out" + levelOrder;
+        // Removing any last used data files.
+        remove(preOrder.c_str());
+        remove(postOrder.c_str());
+        remove(levelOrder.c_str());
+
+        tree.buildTree("out");
+        remove("out");
     }
     else
     {
-        cout << "Fatal: Improper usage \n" << "Usage: P0 [filename] \n";
+        cout << "Fatal: Improper usage \n"
+             << "Usage: P0 [filename] \n";
     }
-        
+    // Creating Data files.
     traversePreOrder(tree.root, level, preOrder);
     traverseLevelOrder(tree.root, level, levelOrder);
     traversePostOrder(tree.root, level, postOrder);
-    remove("out.txt");
 
     return 0;
 }

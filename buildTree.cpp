@@ -8,8 +8,9 @@ This is our build tree file where we build our tree from the tree class.
 #include <fstream>
 #include "buildTree.h"
 using namespace std;
-// create node to insert
-void treeNew::insertNode(string charNew) 
+// We create a node to insert using the data from argument string and insert it with the Insert method.
+// Source: C4
+void treeNew::insertNode(string charNew)
 {
     if (charNew.empty())
         return;
@@ -19,7 +20,7 @@ void treeNew::insertNode(string charNew)
     newNode->count = charNew.length();
     insert(root, newNode);
 }
-// insert node
+// Source: C4
 void treeNew::insert(node_t *&nodePtr, node_t *&newNode)
 {
     if (nodePtr == nullptr)
@@ -28,43 +29,65 @@ void treeNew::insert(node_t *&nodePtr, node_t *&newNode)
         insert(nodePtr->left, newNode);
     else if (newNode->count > nodePtr->count)
         insert(nodePtr->right, newNode);
+    else
+        insert(nodePtr->left, newNode);
 }
-// This function builds our tree with the given file.
+// This function builds our tree with the given file and parses the characters each line at a time.
 void treeNew::buildTree(string fileName)
 {
     fstream dataFile;
     string readingString, subString;
     dataFile.open(fileName);
 
-    while (getline(dataFile, readingString))
+    try
     {
-        // Parseing characters in file
-        for (int x = 0; x < readingString.length(); x++)
+        if (!dataFile)
         {
-            if (!isalpha(readingString[x]))
+            cout << "Error opening file" << endl;
+            throw 505;
+        }
+        while (getline(dataFile, readingString))
+        {
+            // Parseing characters line by line in file
+            for (int x = 0; x < readingString.length(); x++)
             {
-                if (!subString.empty())
+                char chr = readingString[x];
+                if (isalnum(chr))
                 {
-                    insertNode(subString);
-                    subString.clear();
+                    subString += chr;
                 }
-                readingString.erase(x, 1);
-                x--;
+                else if (chr >= 33 && chr <= 43)
+                {
+                    subString += chr;
+                }
+                else if (isspace(chr))
+                {
+                    if (!subString.empty())
+                    {
+                        insertNode(subString);
+                        subString.clear();
+                    }
+                }
+                else
+                {
+                    cout << "Fatal Error in reading file: Unknown Character: " << readingString[x] << endl;
+                    throw 505;
+                }
             }
-            else
+            if (!subString.empty())
             {
-                subString.append(1, readingString[x]);
+                insertNode(subString);
+                subString.clear();
             }
         }
-        if (!subString.empty())
-        {
-            insertNode(subString);
-            subString.clear();
-        }
+        dataFile.close();
     }
-    dataFile.close();
+    catch (...)
+    {
+        cout << "Closing Program..." << endl;
+    }
 }
-
+// Source: C4
 void treeNew::destroySubTree(node_t *nodePtr)
 {
     if (nodePtr)
