@@ -13,7 +13,7 @@ the [level] [num of chars] [node string data] according to the traversal.
 using namespace std;
 
 // We use a stack to go through level order because this is a BWS.
-// Source: C1
+// Source: OR1 https://www.geeksforgeeks.org/level-order-tree-traversal/
 void traverseLevelOrder(node_t *root, int level, string fileName)
 {
     if (root == nullptr)
@@ -49,7 +49,7 @@ void traverseLevelOrder(node_t *root, int level, string fileName)
     }
 }
 // For pre-order traversal we can use recursion and print before function calls.
-// Source: C3
+// Source: OR3 https://www.w3schools.com/dsa/dsa_algo_binarytrees_preorder.php
 void traversePreOrder(node_t *root, int level, string fileName)
 {
     if (root == nullptr)
@@ -60,7 +60,7 @@ void traversePreOrder(node_t *root, int level, string fileName)
     traversePreOrder(root->right, level + 1, fileName);
 }
 // For post-order traversal we can use recursion and print after function calls.
-// Source: C3
+// Source: OR3 https://www.w3schools.com/dsa/dsa_algo_binarytrees_postorder.php
 void traversePostOrder(node_t *root, int level, string fileName)
 {
     if (root == nullptr)

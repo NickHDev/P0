@@ -1,7 +1,7 @@
 #ifndef buildTree_h
 #define buildTree_h
 #include "node.h"
-// Source: C4
+// Source: OR4 Comp Sci 2250
 class treeNew
 {
 private:

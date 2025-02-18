@@ -9,7 +9,7 @@ This is our build tree file where we build our tree from the tree class.
 #include "buildTree.h"
 using namespace std;
 // We create a node to insert using the data from argument string and insert it with the Insert method.
-// Source: C4
+// Source: OR4 Comp Sci 2250
 void treeNew::insertNode(string charNew)
 {
     if (charNew.empty())
@@ -20,7 +20,7 @@ void treeNew::insertNode(string charNew)
     newNode->count = charNew.length();
     insert(root, newNode);
 }
-// Source: C4
+// Source: OR4 Comp Sci 2250
 void treeNew::insert(node_t *&nodePtr, node_t *&newNode)
 {
     if (nodePtr == nullptr)
@@ -87,7 +87,7 @@ void treeNew::buildTree(string fileName)
         cout << "Closing Program..." << endl;
     }
 }
-// Source: C4
+// Source: OR4 Comp Sci 2250
 void treeNew::destroySubTree(node_t *nodePtr)
 {
     if (nodePtr)
